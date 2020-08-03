@@ -13,7 +13,8 @@ public class PlayerInput : MonoBehaviour
    
     [SerializeField] private string JumpAxis = "Jump";
     [SerializeField] private string GrappleAxis = "Fire3";
-    [SerializeField] private string GrabAxis = "Fire1";
+    [SerializeField] private string GrabAxis = "Fire2";
+    [SerializeField] private string ThrowAxis = "Fire1";
     [SerializeField] private string MovementXAxis = "Horizontal";
     [SerializeField] private string MovementYAxis = "Vertical";
     [SerializeField] private string MouseXAxis = "Mouse X";
@@ -26,17 +27,35 @@ public class PlayerInput : MonoBehaviour
     // true the first frame the 'jump' button is pressed.
     public bool JumpButtonDown { get; internal set; }
 
+    // true the first frame the 'jump' button is released.
+    public bool JumpButtonUp { get; internal set; }
+
     // the state of 'grapple'
     public bool GrappleButton { get; internal set; }
 
     // true the first frame the 'grapple' button is pressed.
     public bool GrappleButtonDown { get; internal set; }
 
+    // true the first frame the 'grapple' button is released.
+    public bool GrappleButtonUp { get; internal set; }
+
     // the state of 'grab'
     public bool GrabButton { get; internal set; }
 
     // true the first frame the 'grab' button is pressed.
     public bool GrabButtonDown { get; internal set; }
+
+    // true the first frame the 'grab' button is released.
+    public bool GrabButtonUp { get; internal set; }
+
+    // the state of 'grab'
+    public bool ThrowButton { get; internal set; }
+
+    // true the first frame the 'grab' button is pressed.
+    public bool ThrowButtonDown { get; internal set; }
+
+    // true the first frame the 'grab' button is released.
+    public bool ThrowButtonUp { get; internal set; }
 
 
     /// <summary>
@@ -80,10 +99,17 @@ public class PlayerInput : MonoBehaviour
         JumpButtonDown = Input.GetButtonDown(JumpAxis);
         GrappleButtonDown = Input.GetButtonDown(GrappleAxis);
         GrabButtonDown = Input.GetButtonDown(GrabAxis);
+        ThrowButtonDown = Input.GetButtonDown(ThrowAxis);
 
         JumpButton = Input.GetButton(JumpAxis);
         GrappleButton = Input.GetButton(GrappleAxis);
         GrabButton = Input.GetButton(GrabAxis);
+        ThrowButton = Input.GetButton(ThrowAxis);
+
+        JumpButtonUp = Input.GetButtonUp(JumpAxis);
+        GrappleButtonUp = Input.GetButtonUp(GrappleAxis);
+        GrabButtonUp = Input.GetButtonUp(GrabAxis);
+        ThrowButtonUp = Input.GetButtonUp(ThrowAxis);
 
         mouseMovement.x = Input.GetAxis(MouseXAxis) * MouseMovementOptions.InvertX * MouseMovementOptions.SensitivityX;
         mouseMovement.y = Input.GetAxis(MouseYAxis) * -MouseMovementOptions.InvertY * MouseMovementOptions.SensitivityY;
