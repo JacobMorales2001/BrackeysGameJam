@@ -46,13 +46,12 @@ public class PlayerStates : MonoBehaviour
 
     void DeadState()
     {
-        isDead = true;
-        canRespawn = true;
-        if (isDead && canRespawn)
+        canRespawn = false;
+        if (!isDead && !canRespawn)
         {
-            canRespawn = false;
+            canRespawn = true;
+            isDead = true;
             addPlayerToDeadList();
-            
         }      
     }
 
