@@ -6,7 +6,20 @@ using UnityEngine;
 /// </summary>
 public class PlayerInput : MonoBehaviour
 {
-    // This is the input side of the player script. All inputs will be detected in fixed update
+    // This is the input side of the player script. All inputs will be detected in update
+
+    // string literals
+    [Header("Input Axes")]
+   
+    [SerializeField] private string JumpAxis = "Jump";
+    [SerializeField] private string GrappleAxis = "Fire3";
+    [SerializeField] private string GrabAxis = "Fire2";
+    [SerializeField] private string ThrowAxis = "Fire1";
+    [SerializeField] private string MovementXAxis = "Horizontal";
+    [SerializeField] private string MovementYAxis = "Vertical";
+    [SerializeField] private string MouseXAxis = "Mouse X";
+    [SerializeField] private string MouseYAxis = "Mouse Y";
+
 
     // the state of the 'jump' button
     public bool JumpButton { get; internal set; }
@@ -14,11 +27,35 @@ public class PlayerInput : MonoBehaviour
     // true the first frame the 'jump' button is pressed.
     public bool JumpButtonDown { get; internal set; }
 
+    // true the first frame the 'jump' button is released.
+    public bool JumpButtonUp { get; internal set; }
+
     // the state of 'grapple'
     public bool GrappleButton { get; internal set; }
 
     // true the first frame the 'grapple' button is pressed.
     public bool GrappleButtonDown { get; internal set; }
+
+    // true the first frame the 'grapple' button is released.
+    public bool GrappleButtonUp { get; internal set; }
+
+    // the state of 'grab'
+    public bool GrabButton { get; internal set; }
+
+    // true the first frame the 'grab' button is pressed.
+    public bool GrabButtonDown { get; internal set; }
+
+    // true the first frame the 'grab' button is released.
+    public bool GrabButtonUp { get; internal set; }
+
+    // the state of 'grab'
+    public bool ThrowButton { get; internal set; }
+
+    // true the first frame the 'grab' button is pressed.
+    public bool ThrowButtonDown { get; internal set; }
+
+    // true the first frame the 'grab' button is released.
+    public bool ThrowButtonUp { get; internal set; }
 
 
     /// <summary>
@@ -29,7 +66,7 @@ public class PlayerInput : MonoBehaviour
     public Vector2 MouseMovement { get { return mouseMovement; } protected set { mouseMovement = value; } }
     private Vector2 mouseMovement;
 
-
+    [Header("Input Modifiers")]
     /// <summary>
     /// <para> Describes modifiers for mouse movement </para>
     /// See Also: 
@@ -59,26 +96,26 @@ public class PlayerInput : MonoBehaviour
     private void Update()
     {
 
-        JumpButtonDown = Input.GetButtonDown("Jump");
-        GrappleButtonDown = Input.GetButtonDown("Fire3");
-    }
-    void FixedUpdate()
-    {
-        JumpButton = Input.GetButton("Jump");
+        JumpButtonDown = Input.GetButtonDown(JumpAxis);
+        GrappleButtonDown = Input.GetButtonDown(GrappleAxis);
+        GrabButtonDown = Input.GetButtonDown(GrabAxis);
+        ThrowButtonDown = Input.GetButtonDown(ThrowAxis);
 
-        //DashButton      = Input.GetButton(ControllerInput.P1XButton);
-        //DashButtonDown  = Input.GetButtonDown(ControllerInput.P1XButton);
+        JumpButton = Input.GetButton(JumpAxis);
+        GrappleButton = Input.GetButton(GrappleAxis);
+        GrabButton = Input.GetButton(GrabAxis);
+        ThrowButton = Input.GetButton(ThrowAxis);
 
-        GrappleButton = Input.GetButton("Fire3");
+        JumpButtonUp = Input.GetButtonUp(JumpAxis);
+        GrappleButtonUp = Input.GetButtonUp(GrappleAxis);
+        GrabButtonUp = Input.GetButtonUp(GrabAxis);
+        ThrowButtonUp = Input.GetButtonUp(ThrowAxis);
 
-        mouseMovement.x = Input.GetAxis("Mouse X") * MouseMovementOptions.InvertX * MouseMovementOptions.SensitivityX;
-        mouseMovement.y = Input.GetAxis("Mouse Y") * -MouseMovementOptions.InvertY * MouseMovementOptions.SensitivityY;
+        mouseMovement.x = Input.GetAxis(MouseXAxis) * MouseMovementOptions.InvertX * MouseMovementOptions.SensitivityX;
+        mouseMovement.y = Input.GetAxis(MouseYAxis) * -MouseMovementOptions.InvertY * MouseMovementOptions.SensitivityY;
 
-        wasd.x = Input.GetAxisRaw("Horizontal") * WASDMovementOptions.InvertX * WASDMovementOptions.SensitivityX;
-        wasd.y = Input.GetAxisRaw("Vertical")   * WASDMovementOptions.InvertY * WASDMovementOptions.SensitivityY;
-
-        //rightStick.x    = Input.GetAxis("");
-        //rightStick.y    = Input.GetAxis("");
+        wasd.x = Input.GetAxisRaw(MovementXAxis) * WASDMovementOptions.InvertX * WASDMovementOptions.SensitivityX;
+        wasd.y = Input.GetAxisRaw(MovementYAxis) * WASDMovementOptions.InvertY * WASDMovementOptions.SensitivityY;
     }
 
     void Start()
