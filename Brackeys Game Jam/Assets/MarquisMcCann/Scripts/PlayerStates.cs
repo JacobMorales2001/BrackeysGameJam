@@ -47,8 +47,21 @@ public class PlayerStates : MonoBehaviour
     void DeadState()
     {
         canRespawn = false;
+
+        
+
         if (!isDead && !canRespawn)
         {
+            Destroy(GetComponent<PlayerGrab>());
+            Destroy(GetComponent<PlayerMovement>());
+            Destroy(GetComponent<CharacterController2D>());
+            Destroy(GetComponent<PlayerInput>());
+            GetComponent<Rigidbody2D>().freezeRotation = false;
+            GetComponent<SpriteRenderer>().color = Color.gray;
+            gameObject.AddComponent<Grabbable>();
+            GetComponent<CircleCollider2D>().enabled = true;
+
+
             canRespawn = true;
             isDead = true;
             addPlayerToDeadList();

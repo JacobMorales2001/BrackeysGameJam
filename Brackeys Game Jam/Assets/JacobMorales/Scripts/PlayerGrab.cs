@@ -102,7 +102,6 @@ public class PlayerGrab : MonoBehaviour
 
                 HeldObject.gameObject.AddComponent<Rigidbody2D>();
                 HandLocation.DetachChildren();
-                Grabbing = false;
                 foreach (var c in HeldObject.colliders)
                 {
                     c.enabled = true;
@@ -120,6 +119,7 @@ public class PlayerGrab : MonoBehaviour
                 else
                     OnThrowEvent.Invoke();
 
+                Grabbing = false;
                 HeldObject = null;
                 //InHand = false;
             }
