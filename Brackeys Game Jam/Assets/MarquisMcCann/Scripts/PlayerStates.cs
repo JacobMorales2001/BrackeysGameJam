@@ -83,4 +83,12 @@ public class PlayerStates : MonoBehaviour
     {
         respawn.DeadPlayers.Remove(gameObject);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.tag == "Bullet")
+        {
+            SetState(PlayerStateMachine.Dead);
+        }
+    }
 }
