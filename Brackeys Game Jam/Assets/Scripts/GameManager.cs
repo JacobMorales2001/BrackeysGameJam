@@ -1,13 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-  public bool gamePaused = false;
-  public GameObject pauseMenu;
-  public AudioClip PauseButtonAudio;
- AudioSource GameManagerAUDIO;
+    [Header("Game State")]
+    public bool gameRewind = false;
+    public GameObject RewindFilter;
+    public bool gamePaused = false;
+    public GameObject pauseMenu;
+
+    [Header("Media Symbol Images")]
+    public Image MediaSymbol;
+    public Sprite PauseImage;
+    public Sprite PlayImage;
+    public Sprite RewindImage;
+
+     [Header("Sounds")]
+    public AudioClip PauseButtonAudio;
+    AudioSource GameManagerAUDIO;
     // Start is called before the first frame update
      void Awake()
     {
@@ -28,6 +40,7 @@ public class GameManager : MonoBehaviour
         {
             if (gamePaused == false)
             {
+               MediaSymbol.sprite = PauseImage;
                 Time.timeScale = 0;
                 gamePaused = true;
                
@@ -41,6 +54,7 @@ public class GameManager : MonoBehaviour
                 gamePaused = false;
                 Time.timeScale = 1;
                 GameManagerAUDIO.PlayOneShot(PauseButtonAudio);
+                 MediaSymbol.sprite = PlayImage;
             }
         }
         
@@ -50,10 +64,12 @@ public class GameManager : MonoBehaviour
     {
         if (gamePaused == false)
             {
+                MediaSymbol.sprite = PauseImage;
                 Time.timeScale = 0;
                 gamePaused = true;
                
                 pauseMenu.SetActive(true);
+                
             }
     }
     public void GameUnPause()
@@ -62,5 +78,12 @@ public class GameManager : MonoBehaviour
         
         gamePaused = false;
         Time.timeScale = 1;
+         MediaSymbol.sprite = PlayImage;
+    }
+
+    public void RewindGame()
+    {
+        RewindFilter.SetActive(true);
+        MediaSymbol.sprite = RewindImage;
     }
 }
