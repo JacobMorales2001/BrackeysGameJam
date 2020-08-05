@@ -108,7 +108,7 @@ public class PlayerGrab : MonoBehaviour
                     Destroy(TrajectoryDots[i]);
                 }
 
-                HeldObject.gameObject.AddComponent<Rigidbody2D>();
+                HeldObject.GetComponent<Rigidbody2D>().isKinematic = false;
                 HandLocation.DetachChildren();
                 foreach (var c in HeldObject.colliders)
                 {
@@ -149,7 +149,7 @@ public class PlayerGrab : MonoBehaviour
             // remove its rigidbody if it has one.
             if (col.GetComponent<Rigidbody2D>())
             {
-                Destroy(col.GetComponent<Rigidbody2D>());
+                col.GetComponent<Rigidbody2D>().isKinematic = true;
             }
 
             foreach (var c in col.colliders)

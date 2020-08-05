@@ -52,11 +52,12 @@ public class PlayerStates : MonoBehaviour
 
         if (!isDead && !canRespawn)
         {
-            Destroy(GetComponent<PlayerGrab>());
-            Destroy(GetComponent<PlayerMovement>());
-            Destroy(GetComponent<CharacterController2D>());
-            Destroy(GetComponent<PlayerInput>());
+            GetComponent<PlayerGrab>().enabled = false;
+            GetComponent<PlayerMovement>().enabled = false;
+            GetComponent<CharacterController2D>().enabled = false;
+            GetComponent<PlayerInput>().enabled = false;
             GetComponent<Rigidbody2D>().freezeRotation = false;
+
             GetComponent<SpriteRenderer>().color = Color.gray;
             gameObject.AddComponent<Grabbable>();
             GetComponent<CircleCollider2D>().enabled = true;
