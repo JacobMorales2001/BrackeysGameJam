@@ -154,6 +154,25 @@ public class PlayerReverseGrapplingHook : MonoBehaviour
         }
     }
 
+    private void OnDisable()
+    {
+        // Disable appropriate components.
+        lineRenderer.enabled = false;
+        targetJoint2D.enabled = false;
+        Grappling = false;
+
+        // Let player move again if we didn't before.
+        if (!PlayerCanMoveWhileGrappling)
+            movement.PlayerCanMove = true;
+
+        // Reset rigidbody recording
+        ConnectingColliderHasRigidbody = false;
+        ConnectedTransform = null;
+
+        // Invoke event
+        OnHookReleased.Invoke();
+    }
+
     //private bool GameObjectMovesByLayer(LayerMask layer)
     //{
     //    return false; // Cannot tell right now.
