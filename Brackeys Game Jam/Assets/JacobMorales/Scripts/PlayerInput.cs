@@ -87,6 +87,11 @@ public class PlayerInput : MonoBehaviour
     public Vector3 WASD { get { return wasd; } protected set { wasd = value; } }
     private Vector3 wasd;
 
+    /// <summary>
+    /// <para> (Read-Only) Describes the mouse position in screen pixel coordinates keys this frame. </para>
+    /// </summary>
+    public Vector2 MousePosition { get { return mousePosition; } protected set { mousePosition = value; } }
+    private Vector2 mousePosition;
 
 
     // State of the Right Stick
@@ -113,6 +118,8 @@ public class PlayerInput : MonoBehaviour
 
         mouseMovement.x = Input.GetAxis(MouseXAxis) * MouseMovementOptions.InvertX * MouseMovementOptions.SensitivityX;
         mouseMovement.y = Input.GetAxis(MouseYAxis) * -MouseMovementOptions.InvertY * MouseMovementOptions.SensitivityY;
+
+        mousePosition = Input.mousePosition;
 
         wasd.x = Input.GetAxisRaw(MovementXAxis) * WASDMovementOptions.InvertX * WASDMovementOptions.SensitivityX;
         wasd.y = Input.GetAxisRaw(MovementYAxis) * WASDMovementOptions.InvertY * WASDMovementOptions.SensitivityY;

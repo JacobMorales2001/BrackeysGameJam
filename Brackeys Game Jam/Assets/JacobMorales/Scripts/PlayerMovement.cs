@@ -13,6 +13,8 @@ public class PlayerMovement : MonoBehaviour
 	public float Speed = 40.0f;
 	private float hMove;
 	private bool jump = false;
+	[SerializeField, ReadOnly] private bool playerCanMove = true;
+	public bool PlayerCanMove { get { return playerCanMove; } set { playerCanMove = value; } }
 
 	private void Start()
 	{
@@ -30,7 +32,8 @@ public class PlayerMovement : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		m.Move(hMove * Time.fixedDeltaTime, false, jump);
+		if (playerCanMove)
+			m.Move(hMove * Time.fixedDeltaTime, false, jump);
 		jump = false;
 	}
 }

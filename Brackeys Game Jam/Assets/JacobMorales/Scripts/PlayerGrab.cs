@@ -52,11 +52,15 @@ public class PlayerGrab : MonoBehaviour
         if (OnDropEvent == null)
             OnDropEvent = new UnityEvent();
     }
+
+    // TODO: Override flipping of the player while throwing.
+
     private void Update()
     {
         if (!GrabButton && !Grabbing)
             GrabButton = input.GrabButtonDown;
 
+        // If grabbing and the object is not in the hand, move object towards hand.
         if (Grabbing && Vector2.Distance(HeldObject.transform.localPosition, Vector2.zero) > HandRadius)
         {
             HeldObject.transform.localPosition = Vector2.Lerp(HeldObject.transform.localPosition, Vector2.zero, Time.deltaTime);
@@ -64,37 +68,41 @@ public class PlayerGrab : MonoBehaviour
 
         if (Grabbing)
         {
-            ThrowDirection = ((Vector2)(transform.position - Camera.main.ScreenToWorldPoint(Input.mousePosition))).normalized;
-            //Debug.Log(ThrowDirection.magnitude);
+            // Calculate the throwing direction.
+            ThrowDirection = ((Vector2)(transform.position - Camera.main.ScreenToWorldPoint(input.MousePosition))).normalized;
+
+            // Determine if the mouse is in front or behind the player based on which way they are facing.
             float Modifier = (PlayerIsFacingRight() && ThrowDirection.x >= 0) || (!PlayerIsFacingRight() && ThrowDirection.x <= 0) ? 1.0f : 0.0f;
 
             if (input.ThrowButtonDown)
-            { //click
+            { 
+                // Button pressed, initialize dots
                 for (int i = 0; i < TrajectoryNumberOfDots; i++)
                 {
                     TrajectoryDots[i] = Instantiate(TrajectoryDot, gameObject.transform);
                 }
             }
             if (input.ThrowButton && Modifier != 0)
-            { //drag
-
+            {
+                // Button is held, mouse is in back; render dots
                 for (int i = 0; i < TrajectoryNumberOfDots; i++)
                 {
                     TrajectoryDots[i].SetActive(true);
-                    TrajectoryDots[i].transform.position = calculatePosition(i * SpaceBetweenDots);
+                    TrajectoryDots[i].transform.position = CalculatePosition(i * SpaceBetweenDots);
                 }
             }
             else if (input.ThrowButton && Modifier == 0)
             {
+                // Button is held, mouse is in front; don't render dots
                 for (int i = 0; i < TrajectoryNumberOfDots; i++)
                 {
                     TrajectoryDots[i].SetActive(false);
-                    TrajectoryDots[i].transform.position = calculatePosition(i * SpaceBetweenDots);
+                    TrajectoryDots[i].transform.position = CalculatePosition(i * SpaceBetweenDots);
                 }
             }
             if (input.ThrowButtonUp)
-            { //leave
-
+            { 
+                // Throw or Drop.
                 for (int i = 0; i < TrajectoryNumberOfDots; i++)
                 {
                     Destroy(TrajectoryDots[i]);
@@ -102,7 +110,6 @@ public class PlayerGrab : MonoBehaviour
 
                 HeldObject.gameObject.AddComponent<Rigidbody2D>();
                 HandLocation.DetachChildren();
-                Grabbing = false;
                 foreach (var c in HeldObject.colliders)
                 {
                     c.enabled = true;
@@ -120,6 +127,7 @@ public class PlayerGrab : MonoBehaviour
                 else
                     OnThrowEvent.Invoke();
 
+                Grabbing = false;
                 HeldObject = null;
                 //InHand = false;
             }
@@ -129,6 +137,7 @@ public class PlayerGrab : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         Grabbable col = collision.GetComponent<Grabbable>();
+        // If the player is within the range of an object and pressed the button, grab an item.
         if (col && GrabButton && !Grabbing && HeldObject == null)
         {
             HeldObject = col;
@@ -161,7 +170,7 @@ public class PlayerGrab : MonoBehaviour
         return transform.localScale.x > 0;
     }
 
-    private Vector2 calculatePosition(float elapsedTime)
+    private Vector2 CalculatePosition(float elapsedTime)
     {
         return (Vector2)HeldObject.transform.position + //X0
                 ((ThrowDirection * ThrowForce) + (0.5f * Physics2D.gravity * elapsedTime * elapsedTime)) * elapsedTime;
