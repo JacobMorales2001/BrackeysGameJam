@@ -30,14 +30,17 @@ public class RewindPlayer : MonoBehaviour
 
         for (int i = 0; i < RewindEnemies.Length; i++)
         {
-            if (Vector2.Distance(transform.position, RewindEnemies[i].transform.position) >= distToDropRP && !canDropRP)
+            if (RewindEnemies[i] != null)
             {
-                rewindPoint.position = gameObject.transform.position;
-                canDropRP = true;
-            }
-            else
-            {
-                canDropRP = false;
+                if (Vector2.Distance(transform.position, RewindEnemies[i].transform.position) >= distToDropRP && !canDropRP)
+                {
+                    rewindPoint.position = gameObject.transform.position;
+                    canDropRP = true;
+                }
+                else
+                {
+                    canDropRP = false;
+                }
             }
         }
         
