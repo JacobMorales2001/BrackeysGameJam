@@ -4,27 +4,21 @@ using UnityEngine;
 
 public class ibButtonScript : MonoBehaviour
 {
-    public GameObject endDoor;
+    public GameObject finishRoom;
 
-    private Animator buttonAnim, doorAnim;
+    private Animator roomAnim;
 
 
     void Start()
     {
-        buttonAnim = GetComponent<Animator>();
-        doorAnim = endDoor.GetComponent<Animator>();
+        roomAnim = finishRoom.GetComponent<Animator>();
     }
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        buttonAnim.SetBool("ButtonHit", true);
-    }
-
-    public void ButtonPressed()
-    {
-        if (doorAnim.GetBool("ButtonPressed") == false)
+        if (roomAnim.GetBool("ButtonHit") == false)
         {
-            doorAnim.SetBool("ButtonPressed", true);
+            roomAnim.SetBool("ButtonHit", true);
         }
         else return;
     }
