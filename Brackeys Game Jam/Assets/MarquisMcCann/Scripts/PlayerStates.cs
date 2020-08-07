@@ -57,6 +57,8 @@ public class PlayerStates : MonoBehaviour
             GetComponent<CharacterController2D>().enabled = false;
             GetComponent<PlayerInput>().enabled = false;
             GetComponent<Rigidbody2D>().freezeRotation = false;
+            GetComponent<RewindPlayer>().enabled = false;
+            GetComponent<PlayerReverseGrapplingHook>().enabled = false;
 
             GetComponent<SpriteRenderer>().color = Color.gray;
             gameObject.AddComponent<Grabbable>();
